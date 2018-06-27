@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20sp"
+    tools:context=".activity.ChatSettingActivity">
+
+
+    <CheckBox
+        android:id="@+id/SCCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20sp"
+        android:text="Secret Conversations"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+
+    <EditText
+        android:id="@+id/SCPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+
+</LinearLayout>

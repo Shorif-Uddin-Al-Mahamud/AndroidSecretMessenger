@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "454807160151",
+    "firebase_url": "https://secretmessenger-4dbf0.firebaseio.com",
+    "project_id": "secretmessenger-4dbf0",
+    "storage_bucket": "secretmessenger-4dbf0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454807160151:android:f807166603cc6383",
+        "android_client_info": {
+          "package_name": "com.example.my_pc.secretmessenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454807160151-4fonm2k84to00kcdo66rn8t0v0pj7ggr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAA2YpyjdGkTYX9CU-Cs8xcWA6-rSC8ZdE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

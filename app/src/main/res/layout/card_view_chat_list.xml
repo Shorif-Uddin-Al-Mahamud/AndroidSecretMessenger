@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:id="@+id/userImageViewId"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:padding="10sp"
+                android:scaleType="fitXY"
+                android:src="@drawable/user" />
+
+
+            <TextView
+                android:id="@+id/userNameTextViewId"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_toRightOf="@id/userImageViewId"
+                android:gravity="center"
+                android:text="Salman Khan"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25dp" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/userNameTextViewId"
+                android:background="#000"
+                 />
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

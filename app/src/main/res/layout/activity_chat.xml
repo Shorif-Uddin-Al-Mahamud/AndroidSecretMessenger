@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#37e1bf"
+    android:orientation="vertical"
+    android:padding="10sp"
+    android:weightSum="10"
+    tools:context=".activity.ChatActivity">
+
+
+    <ScrollView
+        android:id="@+id/scrollViewId"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8.5"
+        android:stackFromBottom="true">
+
+
+        <LinearLayout
+            android:id="@+id/layoutId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10sp">
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        android:layout_weight="1.5"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:padding="5sp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5sp"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+
+            <EditText
+                android:id="@+id/messageArea"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_weight="3.2"
+                android:background="@drawable/edit_text_bg_2"
+                android:hint="   Your message"
+                android:paddingLeft="5sp"
+                android:paddingTop="5sp"
+                android:inputType="text"
+                android:textSize="18sp"
+                android:text=""
+                android:textColor="#000" />
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5sp"
+                android:layout_marginTop="7sp"
+                android:layout_marginLeft="5sp"
+                android:layout_weight="0.8"
+                android:background="@drawable/ic_send"
+                android:onClick="sendMessage"
+                android:scaleType="fitXY" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
