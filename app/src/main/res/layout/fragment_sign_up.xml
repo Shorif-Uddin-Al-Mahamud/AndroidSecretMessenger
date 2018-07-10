@@ -4,7 +4,13 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
+    android:weightSum="10"
    >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="9">
 
 
     <LinearLayout
@@ -100,24 +106,42 @@
             android:id="@+id/btn_signup"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="24dp"
+            android:background="@drawable/btn_bg2"
             android:layout_marginTop="24dp"
             android:layout_weight="1.6"
-            android:padding="12dp"
+            android:textStyle="bold"
+            android:padding="1dp"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:textAllCaps="false"
             android:text="Create Account" />
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#e17f4b"
+        android:layout_weight="1">
+
 
         <TextView
             android:id="@+id/link_login"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="24dp"
-            android:layout_weight="2"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:text="Already a member? Login"
-            android:textColor="#fff"
-            android:textSize="16dip"
+            android:textColor="#000"
+            android:textSize="18dp"
             android:textStyle="bold" />
 
-    </LinearLayout>
 
+
+    </LinearLayout>
 </LinearLayout>

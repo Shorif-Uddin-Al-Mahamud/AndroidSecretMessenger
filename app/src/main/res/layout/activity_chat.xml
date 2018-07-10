@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#37e1bf"
+    android:background="#FAFAFA"
     android:orientation="vertical"
-    android:padding="10sp"
     android:weightSum="10"
     tools:context=".activity.ChatActivity">
 
@@ -15,7 +14,10 @@
         android:id="@+id/scrollViewId"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8.5"
+        android:layout_weight="9"
+        android:paddingLeft="5sp"
+        android:paddingRight="5sp"
+        android:paddingTop="5sp"
         android:stackFromBottom="true">
 
 
@@ -36,17 +38,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="bottom"
-        android:layout_weight="1.5"
+        android:layout_weight="1"
+        android:background="@drawable/layout_bg"
         android:gravity="bottom"
-        android:orientation="vertical"
-        android:padding="5sp">
+        android:orientation="vertical">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="5sp"
-            android:gravity="bottom"
+            android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="4">
 
@@ -55,27 +56,27 @@
                 android:id="@+id/messageArea"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:layout_weight="3.2"
+                android:layout_weight="3.3"
                 android:background="@drawable/edit_text_bg_2"
                 android:hint="   Your message"
+                android:inputType="text"
                 android:paddingLeft="5sp"
                 android:paddingTop="5sp"
-                android:inputType="text"
-                android:textSize="18sp"
                 android:text=""
-                android:textColor="#000" />
+                android:textColor="#000"
+                android:textSize="18sp" />
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginRight="5sp"
+                android:layout_marginLeft="7sp"
+                android:layout_marginRight="9sp"
                 android:layout_marginTop="7sp"
-                android:layout_marginLeft="5sp"
-                android:layout_weight="0.8"
+                android:layout_gravity="center"
+                android:layout_weight="0.7"
                 android:background="@drawable/ic_send"
                 android:onClick="sendMessage"
-                android:scaleType="fitXY" />
+                android:scaleType="centerCrop" />
 
 
         </LinearLayout>

@@ -4,9 +4,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,8 +16,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.my_pc.secretmessenger.R;
+import com.example.my_pc.secretmessenger.aes.AES;
 import com.example.my_pc.secretmessenger.constant_values.User;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -26,7 +29,7 @@ import com.firebase.client.FirebaseError;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends BaseActivity {
 
 
     private LinearLayout layout;
@@ -149,13 +152,18 @@ public class ChatActivity extends AppCompatActivity {
 
 
                 // Decript  message from here
-
+               /* if (isSecret) {
+                    message = AES.decrypt(message, secretPass);
+                }*/
+                // ---- end decription
 
                 if (userName.equals(User.USER_EMAIL)) {
 
-                    addMessageBox("You:-\n" + message, 1);
+                    String sourceString = "<string><b><b><b><i>You: </i></b></b></b></string>";
+                    addMessageBox(sourceString, message, 1);
                 } else {
-                    addMessageBox(User.CHAT_WITH_NAME + ":-\n" + message, 2);
+                    String sourceString = "<string><b><b><b><i>" + User.CHAT_WITH_NAME + ": </i></b></b></b></string>";
+                    addMessageBox(sourceString, message, 2);
                 }
             }
 
@@ -182,20 +190,23 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
-    private void addMessageBox(String message, int type) {
+    private void addMessageBox(String title, final String message, int type) {
 
-        TextView textView = new TextView(ChatActivity.this);
-        textView.setText(message);
+        final TextView textView = new TextView(ChatActivity.this);
+
+        textView.setText(Html.fromHtml(title));
+        textView.append("\n");
+        textView.append(message);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //layoutParams.weight = 1;
 
         if (type == 1) {
             layoutParams.gravity = Gravity.LEFT;
-            textView.setBackgroundColor(Color.YELLOW);
+            textView.setBackgroundColor(Color.parseColor("#CCFF90"));
         } else {
             layoutParams.gravity = Gravity.RIGHT;
-            textView.setBackgroundColor(Color.GREEN);
+            textView.setBackgroundColor(Color.parseColor("#E0F2F1"));
         }
 
         layoutParams.setMargins(10, 10, 10, 10);
@@ -215,6 +226,73 @@ public class ChatActivity extends AppCompatActivity {
         }, 1000);
 
 
+        textView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                // test
+                Toast.makeText(ChatActivity.this, "" + message, Toast.LENGTH_LONG).show();
+
+
+                final String originalMessage;
+                originalMessage = textView.getText().toString().trim();
+                // showAlertDialogForGetKey(origianlMessage , );
+                // Toast.makeText(ChatActivity.this, "" + originalMessage, Toast.LENGTH_LONG).show();
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ChatActivity.this);
+                LayoutInflater inflater = ChatActivity.this.getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.get_key_alert_dialog, null);
+                dialogBuilder.setView(dialogView);
+
+                final EditText edt = (EditText) dialogView.findViewById(R.id.edittext_key);
+
+                // dialogBuilder.setTitle("Enter Key");
+                dialogBuilder.setMessage("Enter Key");
+                dialogBuilder.setCancelable(false);
+                dialogBuilder.setPositiveButton("Enter", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //do something with edt.getText().toString();
+                        secretPass = edt.getText().toString().trim();
+                        String msg = textView.getText().toString();
+                        // originalMessage = msg.replace(User.CHAT_WITH_NAME + ":-", "").trim();
+
+                        if (msg.contains("You:")) {
+                            msg = msg.replace("You" + ":", "").trim();
+                            decriptMessage = AES.decrypt(msg, secretPass);
+                            textView.setText("You" + ":\n" + decriptMessage);
+                            // textView.setText();
+
+                        } else {
+                            msg = msg.replace(User.CHAT_WITH_NAME + ":", "").trim();
+                            decriptMessage = AES.decrypt(msg, secretPass);
+                            textView.setText(User.CHAT_WITH_NAME + ":\n" + decriptMessage);
+                        }
+
+                        //Toast.makeText(ChatActivity.this, "" + msg, Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //pass
+
+                    }
+                });
+                AlertDialog b = dialogBuilder.create();
+                b.show();
+
+                //  textView.setText(decriptMessage);
+              /*  String msg = textView.getText().toString();
+                msg = msg.replace(User.CHAT_WITH_NAME + ":-", "").trim();
+                msg = AES.decrypt(msg, "123");
+                Toast.makeText(ChatActivity.this, "" + msg, Toast.LENGTH_SHORT).show();
+                textView.setText(msg);*/
+
+                return true;
+            }
+        });
+
+
     }
 
 
@@ -223,6 +301,10 @@ public class ChatActivity extends AppCompatActivity {
         String messageText = messageArea.getText().toString().trim();
 
         // Encript message from here and then send
+        if (isSecret) {
+            // AES.setKey(secretPass);
+            messageText = AES.encrypt(messageText, secretPass);
+        }
 
         if (!messageText.equals("")) {
             Map<String, String> map = new HashMap<String, String>();
