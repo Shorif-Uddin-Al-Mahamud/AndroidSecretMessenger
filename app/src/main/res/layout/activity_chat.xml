@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA"
+    android:background="#ECEFF1"
     android:orientation="vertical"
     android:weightSum="10"
     tools:context=".activity.ChatActivity">
@@ -39,6 +39,9 @@
         android:layout_height="0dp"
         android:layout_gravity="bottom"
         android:layout_weight="1"
+        android:layout_marginLeft="7sp"
+        android:layout_marginRight="7sp"
+        android:layout_marginBottom="5sp"
         android:background="@drawable/layout_bg"
         android:gravity="bottom"
         android:orientation="vertical">
@@ -57,13 +60,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3.3"
-                android:background="@drawable/edit_text_bg_2"
                 android:hint="   Your message"
                 android:inputType="text"
+                android:backgroundTint="#ffffff"
                 android:paddingLeft="5sp"
-                android:paddingTop="5sp"
-                android:text=""
-                android:textColor="#000"
+                android:textColorHint="#ffffff"
+                android:textColor="#ffffff"
                 android:textSize="18sp" />
 
             <ImageButton
@@ -71,7 +73,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="7sp"
                 android:layout_marginRight="9sp"
-                android:layout_marginTop="7sp"
                 android:layout_gravity="center"
                 android:layout_weight="0.7"
                 android:background="@drawable/ic_send"

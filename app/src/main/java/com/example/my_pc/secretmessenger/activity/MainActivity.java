@@ -1,6 +1,7 @@
 package com.example.my_pc.secretmessenger.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -124,15 +125,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
+ /*   @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
+    }*/
 
-    @Override
+  /*  @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -164,6 +165,8 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+*/
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -190,10 +193,15 @@ public class MainActivity extends AppCompatActivity
 
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main, new LogInFragment()).addToBackStack("tag").commit();
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_secretPass) {
 
-        } else if (id == R.id.nav_send) {
+            startActivity(new Intent(this, ChatSettingActivity.class));
+        } else if (id == R.id.nav_sign_out) {
 
+            mAuth.signOut();
+            if (mAuth.getCurrentUser() == null) {
+                selectedDisplay(FragmentId.LOGIN_ID);
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -3,6 +3,8 @@ package com.example.my_pc.secretmessenger.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Html;
@@ -28,6 +30,8 @@ import com.firebase.client.FirebaseError;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.my_pc.secretmessenger.R.drawable.rounded_background;
 
 public class ChatActivity extends BaseActivity {
 
@@ -151,19 +155,13 @@ public class ChatActivity extends BaseActivity {
                 String userName = map.get("user").toString();
 
 
-                // Decript  message from here
-               /* if (isSecret) {
-                    message = AES.decrypt(message, secretPass);
-                }*/
-                // ---- end decription
-
                 if (userName.equals(User.USER_EMAIL)) {
 
-                    String sourceString = "<string><b><b><b><i>You: </i></b></b></b></string>";
-                    addMessageBox(sourceString, message, 1);
+                    String title = "<strong><b><i>Me: </i></b></strong>";
+                    addMessageBox(title, message, 1);
                 } else {
-                    String sourceString = "<string><b><b><b><i>" + User.CHAT_WITH_NAME + ": </i></b></b></b></string>";
-                    addMessageBox(sourceString, message, 2);
+                    String title = "<strong><b><i>" + User.CHAT_WITH_NAME + ": </i></b></strong>";
+                    addMessageBox(title, message, 2);
                 }
             }
 
@@ -190,23 +188,30 @@ public class ChatActivity extends BaseActivity {
     }
 
 
-    private void addMessageBox(String title, final String message, int type) {
+    private void addMessageBox(final String title, final String message, int type) {
 
         final TextView textView = new TextView(ChatActivity.this);
 
         textView.setText(Html.fromHtml(title));
         textView.append("\n");
         textView.append(message);
+        textView.setBackgroundResource(R.drawable.rounded_background);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //layoutParams.weight = 1;
 
         if (type == 1) {
             layoutParams.gravity = Gravity.LEFT;
-            textView.setBackgroundColor(Color.parseColor("#CCFF90"));
+            textView.setBackgroundColor(Color.parseColor("#263238"));
+            textView.setBackgroundResource(R.drawable.rounded_background);
+          //  textView.setPadding(14, 3, 4, 3);
+            textView.setTextColor(Color.WHITE);
         } else {
             layoutParams.gravity = Gravity.RIGHT;
-            textView.setBackgroundColor(Color.parseColor("#E0F2F1"));
+            textView.setBackgroundColor(Color.parseColor("#CFD8DC"));
+            textView.setBackgroundResource(R.drawable.rounded_background2);
+           // textView.setPadding(14, 3, 4, 3);
+            textView.setTextColor(Color.BLACK);
         }
 
         layoutParams.setMargins(10, 10, 10, 10);
@@ -223,7 +228,7 @@ public class ChatActivity extends BaseActivity {
             public void run() {
                 scrollView.fullScroll(ScrollView.FOCUS_DOWN);
             }
-        }, 1000);
+        }, 100);
 
 
         textView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -231,13 +236,7 @@ public class ChatActivity extends BaseActivity {
             public boolean onLongClick(View v) {
 
                 // test
-                Toast.makeText(ChatActivity.this, "" + message, Toast.LENGTH_LONG).show();
-
-
-                final String originalMessage;
-                originalMessage = textView.getText().toString().trim();
-                // showAlertDialogForGetKey(origianlMessage , );
-                // Toast.makeText(ChatActivity.this, "" + originalMessage, Toast.LENGTH_LONG).show();
+                //  Toast.makeText(ChatActivity.this, "" + message, Toast.LENGTH_LONG).show();
 
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ChatActivity.this);
                 LayoutInflater inflater = ChatActivity.this.getLayoutInflater();
@@ -252,11 +251,35 @@ public class ChatActivity extends BaseActivity {
                 dialogBuilder.setPositiveButton("Enter", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //do something with edt.getText().toString();
-                        secretPass = edt.getText().toString().trim();
-                        String msg = textView.getText().toString();
+                        String secretPass2 = edt.getText().toString().trim();
+                        String msg = message;
                         // originalMessage = msg.replace(User.CHAT_WITH_NAME + ":-", "").trim();
 
-                        if (msg.contains("You:")) {
+                        String decryptMessage = AES.decrypt(msg, secretPass2);
+                        textView.setText(Html.fromHtml(title));
+                        textView.append("\n");
+                        if (decryptMessage != null || decryptMessage != "") {
+
+                            try {
+                                textView.append(decryptMessage);
+
+                                // delay 10 second
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    public void run() {
+                                        // Actions to do after 10 seconds
+                                        textView.append(message);
+                                    }
+                                }, 10000);
+
+                                // end of delay
+                            } catch (Exception e) {
+                                textView.append(message);
+                            }
+                        } else {
+                            textView.append(message);
+                        }
+                       /* if (msg.contains("You:")) {
                             msg = msg.replace("You" + ":", "").trim();
                             decriptMessage = AES.decrypt(msg, secretPass);
                             textView.setText("You" + ":\n" + decriptMessage);
@@ -266,7 +289,7 @@ public class ChatActivity extends BaseActivity {
                             msg = msg.replace(User.CHAT_WITH_NAME + ":", "").trim();
                             decriptMessage = AES.decrypt(msg, secretPass);
                             textView.setText(User.CHAT_WITH_NAME + ":\n" + decriptMessage);
-                        }
+                        }*/
 
                         //Toast.makeText(ChatActivity.this, "" + msg, Toast.LENGTH_LONG).show();
                     }
@@ -280,13 +303,6 @@ public class ChatActivity extends BaseActivity {
                 });
                 AlertDialog b = dialogBuilder.create();
                 b.show();
-
-                //  textView.setText(decriptMessage);
-              /*  String msg = textView.getText().toString();
-                msg = msg.replace(User.CHAT_WITH_NAME + ":-", "").trim();
-                msg = AES.decrypt(msg, "123");
-                Toast.makeText(ChatActivity.this, "" + msg, Toast.LENGTH_SHORT).show();
-                textView.setText(msg);*/
 
                 return true;
             }
