@@ -2,5 +2,8 @@
 <resources>
     <color name="colorPrimary">#263238</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#118114</color>
+    <color name="colorAccent">#ffffff</color>
+    <color name="log_button">#263238</color>
+
+
 </resources>

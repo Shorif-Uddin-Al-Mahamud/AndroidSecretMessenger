@@ -157,10 +157,10 @@ public class ChatActivity extends BaseActivity {
 
                 if (userName.equals(User.USER_EMAIL)) {
 
-                    String title = "<strong><b><i>Me: </i></b></strong>";
+                    String title = "<strong><b><i>&nbsp;Me * </i></b></strong>";
                     addMessageBox(title, message, 1);
                 } else {
-                    String title = "<strong><b><i>" + User.CHAT_WITH_NAME + ": </i></b></strong>";
+                    String title = "<strong><b><i>" + "&nbsp;* "+User.CHAT_WITH_NAME + " </i></b></strong>";
                     addMessageBox(title, message, 2);
                 }
             }
@@ -194,7 +194,7 @@ public class ChatActivity extends BaseActivity {
 
         textView.setText(Html.fromHtml(title));
         textView.append("\n");
-        textView.append(message);
+        textView.append(" "+message+" \n");
         textView.setBackgroundResource(R.drawable.rounded_background);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -258,40 +258,31 @@ public class ChatActivity extends BaseActivity {
                         String decryptMessage = AES.decrypt(msg, secretPass2);
                         textView.setText(Html.fromHtml(title));
                         textView.append("\n");
-                        if (decryptMessage != null || decryptMessage != "") {
+                        if (decryptMessage != null && !decryptMessage.isEmpty() ) {
 
                             try {
-                                textView.append(decryptMessage);
+                                textView.append(" "+decryptMessage+" \n");
 
                                 // delay 10 second
                                 Handler handler = new Handler();
                                 handler.postDelayed(new Runnable() {
                                     public void run() {
                                         // Actions to do after 10 seconds
-                                        textView.append(message);
+                                        textView.setText(Html.fromHtml(title));
+                                        textView.append("\n");
+                                        textView.append(" "+message+" \n");
                                     }
                                 }, 10000);
 
                                 // end of delay
                             } catch (Exception e) {
-                                textView.append(message);
+                                textView.append(" "+message+" \n");
                             }
                         } else {
-                            textView.append(message);
+                            textView.append(" "+message+" \n");
+                            Toast.makeText(ChatActivity.this, "Wrong Key", Toast.LENGTH_SHORT).show();
                         }
-                       /* if (msg.contains("You:")) {
-                            msg = msg.replace("You" + ":", "").trim();
-                            decriptMessage = AES.decrypt(msg, secretPass);
-                            textView.setText("You" + ":\n" + decriptMessage);
-                            // textView.setText();
 
-                        } else {
-                            msg = msg.replace(User.CHAT_WITH_NAME + ":", "").trim();
-                            decriptMessage = AES.decrypt(msg, secretPass);
-                            textView.setText(User.CHAT_WITH_NAME + ":\n" + decriptMessage);
-                        }*/
-
-                        //Toast.makeText(ChatActivity.this, "" + msg, Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -337,7 +328,6 @@ public class ChatActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
 
-        // setTheMessage();
     }
 
 

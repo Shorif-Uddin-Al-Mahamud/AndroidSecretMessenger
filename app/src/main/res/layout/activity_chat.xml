@@ -62,10 +62,10 @@
                 android:layout_weight="3.3"
                 android:hint="   Your message"
                 android:inputType="text"
-                android:backgroundTint="#ffffff"
+                android:backgroundTint="#000000"
                 android:paddingLeft="5sp"
-                android:textColorHint="#ffffff"
-                android:textColor="#ffffff"
+                android:textColorHint="#000000"
+                android:textColor="#000000"
                 android:textSize="18sp" />
 
             <ImageButton

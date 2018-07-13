@@ -31,7 +31,8 @@
                 android:layout_height="100sp"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="fitXY"
-                android:src="@drawable/secret" />
+                android:layout_marginTop="20sp"
+                android:src="@drawable/secret_messanger_logo" />
 
 
         </LinearLayout>
@@ -42,7 +43,7 @@
             android:layout_height="0dp"
             android:layout_weight="1.7"
             android:clipToPadding="false"
-            android:gravity="top"
+            android:gravity="bottom"
             android:minHeight="30dp"
             android:scrollbarSize="100sp"
             android:textColorHint="#37474F"
@@ -101,10 +102,10 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="30dp"
             android:layout_marginLeft="20sp"
             android:layout_marginRight="20sp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="42dp"
             android:layout_weight="1.1"
             android:textAllCaps="false"
             android:background="@drawable/btn_bg"
