@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#ffffff</color>
     <color name="log_button">#263238</color>
+    <color name="unchecked">#fff</color>
+    <color name="checked">#000</color>
 
 
 </resources>

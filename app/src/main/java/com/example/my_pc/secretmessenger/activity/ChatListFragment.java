@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.my_pc.secretmessenger.R;
 import com.example.my_pc.secretmessenger.adapter.UserListAdapter;
 import com.example.my_pc.secretmessenger.constant_values.ConstantValues;
+import com.example.my_pc.secretmessenger.constant_values.User;
 import com.example.my_pc.secretmessenger.model.UserList;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -67,7 +68,8 @@ public class ChatListFragment extends Fragment {
 
 
                     UserList list = snapshot.getValue(UserList.class);
-                    userLists.add(list);
+                    if (!list.getEmail().equals(User.USER_EMAIL))
+                        userLists.add(list);
                 }
 
 

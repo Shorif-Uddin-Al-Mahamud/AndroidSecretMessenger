@@ -1,5 +1,6 @@
 package com.example.my_pc.secretmessenger.utility;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -159,16 +160,10 @@ public class ImagePicker {
         try {
 
             context.getContentResolver().notifyChange(imageFile, null);
-            ExifInterface exif = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ECLAIR) {
-                exif = new ExifInterface(imageFile.getPath());
-            }
-            int orientation = 0;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ECLAIR) {
-                orientation = exif.getAttributeInt(
-                        ExifInterface.TAG_ORIENTATION,
-                        ExifInterface.ORIENTATION_NORMAL);
-            }
+            ExifInterface exif = new ExifInterface(imageFile.getPath());
+            int orientation = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
 
             switch (orientation) {
                 case ExifInterface.ORIENTATION_ROTATE_270:
@@ -296,4 +291,3 @@ public class ImagePicker {
     }
 
 }
-

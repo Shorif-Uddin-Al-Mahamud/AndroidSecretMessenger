@@ -3,8 +3,10 @@ package com.example.my_pc.secretmessenger.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,13 +26,14 @@ import com.example.my_pc.secretmessenger.constant_values.FragmentId;
 import com.example.my_pc.secretmessenger.constant_values.User;
 import com.example.my_pc.secretmessenger.utility.CircleTransform;
 import com.example.my_pc.secretmessenger.utility.MyProgressDialog;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private View headerView;
-    public FirebaseAuth mAuth;
+    public static FirebaseAuth mAuth;
     private MyProgressDialog progressDialog;
     public static MainActivity mainActivity;
     private ImageView profilePicture;
@@ -113,6 +116,11 @@ public class MainActivity extends AppCompatActivity
         headerView = navigationView.getHeaderView(0);
 
 
+        // divider on navigation drawer
+        NavigationMenuView navMenuView = (NavigationMenuView) navigationView.getChildAt(0);
+        navMenuView.addItemDecoration(new DividerItemDecoration(MainActivity.this, DividerItemDecoration.VERTICAL));
+
+
     }
 
     @Override
@@ -124,48 +132,6 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
- /*   @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }*/
-
-  /*  @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        // Sign out
-        if (id == R.id.action_sign_out) {
-
-
-            mAuth.signOut();
-
-            if (mAuth.getCurrentUser() == null) {
-
-                selectedDisplay(FragmentId.LOGIN_ID);
-
-            }
-
-            return true;
-        }
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_exit) {
-
-            finish();
-            return true;
-        }
-
-
-        return super.onOptionsItemSelected(item);
-    }
-*/
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -191,17 +157,13 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_sign_in) {
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, new LogInFragment()).addToBackStack("tag").commit();
-
-        } else if (id == R.id.nav_secretPass) {
-
-            startActivity(new Intent(this, ChatSettingActivity.class));
-        } else if (id == R.id.nav_sign_out) {
-
-            mAuth.signOut();
-            if (mAuth.getCurrentUser() == null) {
-                selectedDisplay(FragmentId.LOGIN_ID);
+            if (mAuth.getCurrentUser() != null) {
+                viewSnackBar("You already loged in");
+            } else {
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_main, new LogInFragment()).addToBackStack("tag").commit();
             }
+
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -241,18 +203,43 @@ public class MainActivity extends AppCompatActivity
 
     public void initProfile() {
 
+            profileName.setText(User.USER_NAME);
+            profileEmail.setText(User.USER_EMAIL);
+
+            Glide.with(this).load(User.USER_PHOTO).placeholder(R.drawable.user_profile).error(R.drawable.user_profile).transform(new CircleTransform(this)).into(profilePicture);
+
+            profileName.setText(User.USER_NAME);
+            profileEmail.setText(User.USER_EMAIL);
+
+    }
+
+    public void logOut(View view) {
 
         if (mAuth.getCurrentUser() != null) {
+            mAuth.signOut();
 
+            setUserListToEmpty();
+            initProfile();
+            viewSnackBar("Log out from profile successfully");
 
-            profileName.setText(User.USER_NAME);
-            profileEmail.setText(User.USER_EMAIL);
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, new LogInFragment()).addToBackStack("tag").commit();
 
-            Glide.with(this).load(User.USER_PHOTO).placeholder(R.drawable.user).error(R.drawable.user).transform(new CircleTransform(this)).into(profilePicture);
-
-            profileName.setText(User.USER_NAME);
-            profileEmail.setText(User.USER_EMAIL);
-
+        } else {
+            viewSnackBar("Please sign in first");
         }
+    }
+
+    private void setUserListToEmpty() {
+
+        User.USER_NAME = "No User";
+        User.USER_EMAIL = "user@gmail.com";
+        User.USER_PHOTO = "";
+        User.CHAT_WITH_NAME = "";
+        User.CHAT_WITH_EMAIL = "";
+        User.CHAT_WITH_PHOTO = "";
+    }
+
+    public void exit(View view) {
+        finish();
     }
 }

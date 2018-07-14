@@ -46,7 +46,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.MyView
 
         holder.userName.setText(list.getName());
 
-        Glide.with(context).load(list.getPhotoUrl()).placeholder(R.drawable.user_profile).error(R.drawable.user_profile).transform(new CircleTransform(context)).into(holder.userImage);
+        Glide.with(context).load(list.getPhotoUrl()).placeholder(R.drawable.user_chat_list).error(R.drawable.user_chat_list).transform(new CircleTransform(context)).into(holder.userImage);
 
     }
 

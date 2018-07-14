@@ -1,5 +1,6 @@
 package com.example.my_pc.secretmessenger.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.my_pc.secretmessenger.R;
 import com.example.my_pc.secretmessenger.aes.AES;
@@ -60,11 +62,11 @@ public class BaseActivity extends AppCompatActivity {
 
         View view1 = findViewById(android.R.id.content);
         Snackbar snackbar = Snackbar.make(view1, message, Snackbar.LENGTH_LONG);
-        snackbar.setActionTextColor(Color.RED);
+        snackbar.setActionTextColor(Color.WHITE);
 
         View view2 = snackbar.getView();
         TextView tv = view2.findViewById(android.support.design.R.id.snackbar_text);
-        tv.setTextColor(Color.YELLOW);
+        tv.setTextColor(Color.WHITE);
 
         snackbar.setAction("OK", new View.OnClickListener() {
             @Override
@@ -88,4 +90,22 @@ public class BaseActivity extends AppCompatActivity {
         } else
             return false;
     }
+
+
+
+    private ProgressDialog progressDialog;
+
+
+    public ProgressDialog showProgressDialog(String title, String message) {
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setIcon(R.drawable.ic_info_icone);
+        progressDialog.setTitle(title);
+        progressDialog.setMessage(message);
+
+        return progressDialog;
+
+    }
+
+
 }

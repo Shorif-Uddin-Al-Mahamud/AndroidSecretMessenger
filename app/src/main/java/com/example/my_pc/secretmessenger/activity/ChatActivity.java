@@ -1,8 +1,10 @@
 package com.example.my_pc.secretmessenger.activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -14,7 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -27,6 +31,8 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +45,8 @@ public class ChatActivity extends BaseActivity {
     private LinearLayout layout;
     private ScrollView scrollView;
     private EditText messageArea;
+
+    public static Activity chatActivity;
 
     private Firebase reference1, reference2;
 
@@ -74,6 +82,7 @@ public class ChatActivity extends BaseActivity {
     private void initUI() {
 
 
+        chatActivity = ChatActivity.this;
         // Load the UI
         setContentView(R.layout.activity_chat);
 
@@ -113,6 +122,12 @@ public class ChatActivity extends BaseActivity {
         if (item.getItemId() == R.id.action_settings) {
 
             startActivity(new Intent(this, ChatSettingActivity.class));
+            return true;
+        }
+
+        if (item.getItemId() == R.id.action_delete_conversation) {
+
+            deleteConversation();
             return true;
         }
 
@@ -160,7 +175,7 @@ public class ChatActivity extends BaseActivity {
                     String title = "<strong><b><i>&nbsp;Me * </i></b></strong>";
                     addMessageBox(title, message, 1);
                 } else {
-                    String title = "<strong><b><i>" + "&nbsp;* "+User.CHAT_WITH_NAME + " </i></b></strong>";
+                    String title = "<strong><b><i>" + "&nbsp;* " + User.CHAT_WITH_NAME + " </i></b></strong>";
                     addMessageBox(title, message, 2);
                 }
             }
@@ -194,7 +209,7 @@ public class ChatActivity extends BaseActivity {
 
         textView.setText(Html.fromHtml(title));
         textView.append("\n");
-        textView.append(" "+message+" \n");
+        textView.append(" " + message + " \n");
         textView.setBackgroundResource(R.drawable.rounded_background);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -204,13 +219,13 @@ public class ChatActivity extends BaseActivity {
             layoutParams.gravity = Gravity.LEFT;
             textView.setBackgroundColor(Color.parseColor("#263238"));
             textView.setBackgroundResource(R.drawable.rounded_background);
-          //  textView.setPadding(14, 3, 4, 3);
+            //  textView.setPadding(14, 3, 4, 3);
             textView.setTextColor(Color.WHITE);
         } else {
             layoutParams.gravity = Gravity.RIGHT;
             textView.setBackgroundColor(Color.parseColor("#CFD8DC"));
             textView.setBackgroundResource(R.drawable.rounded_background2);
-           // textView.setPadding(14, 3, 4, 3);
+            // textView.setPadding(14, 3, 4, 3);
             textView.setTextColor(Color.BLACK);
         }
 
@@ -238,18 +253,22 @@ public class ChatActivity extends BaseActivity {
                 // test
                 //  Toast.makeText(ChatActivity.this, "" + message, Toast.LENGTH_LONG).show();
 
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ChatActivity.this);
+                final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ChatActivity.this);
                 LayoutInflater inflater = ChatActivity.this.getLayoutInflater();
                 final View dialogView = inflater.inflate(R.layout.get_key_alert_dialog, null);
                 dialogBuilder.setView(dialogView);
 
                 final EditText edt = (EditText) dialogView.findViewById(R.id.edittext_key);
-
+                Button yesBtn = dialogView.findViewById(R.id.yes_btn);
+                Button noBtn = dialogView.findViewById(R.id.no_btn);
                 // dialogBuilder.setTitle("Enter Key");
-                dialogBuilder.setMessage("Enter Key");
+                //   dialogBuilder.setMessage("Enter Key");
                 dialogBuilder.setCancelable(false);
-                dialogBuilder.setPositiveButton("Enter", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
+                final AlertDialog b = dialogBuilder.create();
+                yesBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // When Yes button is clicked
                         //do something with edt.getText().toString();
                         String secretPass2 = edt.getText().toString().trim();
                         String msg = message;
@@ -258,10 +277,10 @@ public class ChatActivity extends BaseActivity {
                         String decryptMessage = AES.decrypt(msg, secretPass2);
                         textView.setText(Html.fromHtml(title));
                         textView.append("\n");
-                        if (decryptMessage != null && !decryptMessage.isEmpty() ) {
+                        if (decryptMessage != null && !decryptMessage.isEmpty()) {
 
                             try {
-                                textView.append(" "+decryptMessage+" \n");
+                                textView.append(" " + decryptMessage + " \n");
 
                                 // delay 10 second
                                 Handler handler = new Handler();
@@ -270,29 +289,31 @@ public class ChatActivity extends BaseActivity {
                                         // Actions to do after 10 seconds
                                         textView.setText(Html.fromHtml(title));
                                         textView.append("\n");
-                                        textView.append(" "+message+" \n");
+                                        textView.append(" " + message + " \n");
                                     }
                                 }, 10000);
 
                                 // end of delay
                             } catch (Exception e) {
-                                textView.append(" "+message+" \n");
+                                textView.append(" " + message + " \n");
                             }
                         } else {
-                            textView.append(" "+message+" \n");
+                            textView.append(" " + message + " \n");
                             Toast.makeText(ChatActivity.this, "Wrong Key", Toast.LENGTH_SHORT).show();
                         }
 
+                        b.dismiss();
                     }
                 });
 
-                dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        //pass
-
+                noBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // When no Button is clicked
+                        b.dismiss();
                     }
                 });
-                AlertDialog b = dialogBuilder.create();
+
                 b.show();
 
                 return true;
@@ -330,5 +351,52 @@ public class ChatActivity extends BaseActivity {
 
     }
 
+
+    public void deleteConversation() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this).setCancelable(false);
+        builder.setTitle("Delete Conversation?").setMessage("Are you sure to delete this conversation?");
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                try {
+                    delete();
+                } catch (Exception e) {
+
+                }
+
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#BCAAA4")));
+
+        dialog.show();
+
+    }
+
+    private void delete() {
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("messages");
+
+        String user = User.USER_EMAIL.replace(".", "-");
+        String chatWith = User.CHAT_WITH_EMAIL.replace(".", "-");
+
+        try {
+            databaseReference.child(user + "_" + chatWith).removeValue();
+        } catch (Exception e) {
+
+        }
+
+        viewSnackBar("Convertion Deleted");
+    }
 
 }
