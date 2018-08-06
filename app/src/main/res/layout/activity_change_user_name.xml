@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    android:paddingLeft="5sp"
+    android:gravity="center"
+    tools:context=".activity.ChangeUserNameActivity">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Current User Name"
+        android:textAlignment="textStart"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/currentUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2sp"
+        android:text="ABC"
+        android:textAlignment="center"
+        android:layout_marginBottom="20sp"
+        android:textColor="#000"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:text="New User Name"
+        android:textAlignment="textStart"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/newUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2sp"
+        android:hint="Your New User Name"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="18sp" />
+
+
+    <Button
+        android:id="@+id/changeUserNameBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginTop="20sp"
+        android:background="@drawable/btn_bg2"
+        android:text="Change"
+        android:textAllCaps="false"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+</LinearLayout>

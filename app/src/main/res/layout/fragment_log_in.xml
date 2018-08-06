@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#37474F"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     android:weightSum="10">
 
@@ -45,6 +46,8 @@
             android:clipToPadding="false"
             android:gravity="bottom"
             android:minHeight="30dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:scrollbarSize="100sp"
             android:textColorHint="#37474F"
             app:counterTextAppearance="@dimen/fab_margin"
@@ -76,6 +79,8 @@
             android:clipToPadding="false"
             android:gravity="bottom"
             android:scrollbarSize="100sp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:textColorHint="#37474F"
             app:counterTextAppearance="@dimen/fab_margin"
             app:hintTextAppearance="@style/TextLabel">

@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -159,7 +158,7 @@ public class ProfilePictureChangeActivity extends BaseActivity {
 
         if (imageUri != null) {
 
-            progressDialog = showProgressDialog("Uploading...", "Please wait");
+            progressDialog = getProgressDialog("Uploading...", "Please wait");
 
             StorageReference storageReference = mStorageRef.child(ConstantValues.FB_STORAGE_PATH + System.currentTimeMillis() + "." + getImageExt(imageUri));
 

@@ -41,8 +41,12 @@
         <activity
             android:name=".activity.ChatSettingActivity"
             android:parentActivityName=".activity.ChatActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.ProfilePictureChangeActivity" android:parentActivityName=".activity.MainActivity"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ProfilePictureChangeActivity"
+            android:parentActivityName=".activity.MainActivity" />
+        <activity android:name=".activity.ChangeUserNameActivity"  android:parentActivityName=".activity.MainActivity"/>
+        <activity android:name=".activity.ChangePasswordActivity" android:parentActivityName=".activity.MainActivity"></activity>
     </application>
 
 </manifest>

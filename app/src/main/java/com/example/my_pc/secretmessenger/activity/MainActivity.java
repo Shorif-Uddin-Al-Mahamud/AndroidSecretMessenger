@@ -146,14 +146,20 @@ public class MainActivity extends BaseActivity
 
             if (FirebaseAuth.getInstance().getCurrentUser() == null) {
 
-                Toast.makeText(mainActivity, "You need to sign in", Toast.LENGTH_SHORT).show();
+                viewSnackBar("You need to sign in");
+
             } else {
                 selectedDisplay(FragmentId.CHAT_LIST);
             }
 
         } else if (id == R.id.nav_profile) {
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, new ProfileFragment()).addToBackStack("tag").commit();
+                viewSnackBar("You need to sign in");
+                //Toast.makeText(mainActivity, "You need to sign in", Toast.LENGTH_SHORT).show();
+            } else {
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_main, new ProfileFragment()).addToBackStack("tag").commit();
+            }
 
         } else if (id == R.id.nav_sign_in) {
 
@@ -203,13 +209,13 @@ public class MainActivity extends BaseActivity
 
     public void initProfile() {
 
-            profileName.setText(User.USER_NAME);
-            profileEmail.setText(User.USER_EMAIL);
+        profileName.setText(User.USER_NAME);
+        profileEmail.setText(User.USER_EMAIL);
 
-            Glide.with(this).load(User.USER_PHOTO).placeholder(R.drawable.user_profile).error(R.drawable.user_profile).transform(new CircleTransform(this)).into(profilePicture);
+        Glide.with(this).load(User.USER_PHOTO).placeholder(R.drawable.user_profile).error(R.drawable.user_profile).transform(new CircleTransform(this)).into(profilePicture);
 
-            profileName.setText(User.USER_NAME);
-            profileEmail.setText(User.USER_EMAIL);
+        profileName.setText(User.USER_NAME);
+        profileEmail.setText(User.USER_EMAIL);
 
     }
 
@@ -231,8 +237,8 @@ public class MainActivity extends BaseActivity
 
     private void setUserListToEmpty() {
 
-        User.USER_NAME = "No User";
-        User.USER_EMAIL = "user@gmail.com";
+        User.USER_NAME = "";
+        User.USER_EMAIL = "";
         User.USER_PHOTO = "";
         User.CHAT_WITH_NAME = "";
         User.CHAT_WITH_EMAIL = "";

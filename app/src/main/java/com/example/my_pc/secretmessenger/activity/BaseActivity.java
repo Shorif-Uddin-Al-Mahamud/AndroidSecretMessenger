@@ -96,7 +96,7 @@ public class BaseActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
 
-    public ProgressDialog showProgressDialog(String title, String message) {
+    public ProgressDialog getProgressDialog(String title, String message) {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setIcon(R.drawable.ic_info_icone);

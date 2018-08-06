@@ -329,7 +329,7 @@ public class ChatActivity extends BaseActivity {
         String messageText = messageArea.getText().toString().trim();
 
         // Encript message from here and then send
-        if (isSecret) {
+        if (isSecret && !secretPass.isEmpty() && !secretPass.equals("")) {
             // AES.setKey(secretPass);
             messageText = AES.encrypt(messageText, secretPass);
         }
@@ -348,7 +348,6 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
 

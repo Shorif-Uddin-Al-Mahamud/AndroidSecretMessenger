@@ -41,9 +41,8 @@ public class ChatSettingActivity extends BaseActivity {
         setContentView(R.layout.activity_chat_setting);
         ButterKnife.bind(this);
 
-//        firebaseDatabase = FirebaseDatabase.getInstance().getReference("https://secretmessenger-4dbf0.firebaseio.com/").child("messages");
-
         setTitle("Chat Setting");
+
         if (isSecret) {
             SCCheckBox.setChecked(true);
             SCPassword.setText(secretPass);

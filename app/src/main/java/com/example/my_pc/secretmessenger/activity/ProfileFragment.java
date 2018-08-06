@@ -55,9 +55,13 @@ public class ProfileFragment extends Fragment {
 
     @OnClick(R.id.updateUserNameBtn)
     public void onUpdateUserNameBtnClicked() {
+
+        startActivity(new Intent(getActivity(), ChangeUserNameActivity.class));
     }
 
     @OnClick(R.id.changePasswordBtn)
     public void onChangePasswordBtnClicked() {
+        startActivity(new Intent(getActivity(), ChangePasswordActivity.class));
+
     }
 }
